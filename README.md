@@ -1,4 +1,4 @@
-# Getting famiiar with testing using playwrght
+# Getting familiar with testing using playwrght
 
 ## Requirements?
 To validate that every article is ranked correctly on the page from the newest to the oldest.
