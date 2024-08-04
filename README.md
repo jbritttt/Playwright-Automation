@@ -1,9 +1,9 @@
-# Getting familiar with testing using playwrght
+# Getting familiar with testing using playwright
 
 ## Requirements?
 To validate that every article is ranked correctly on the page from the newest to the oldest.
 
-## How test 2 works?
+## How test no: 2 works?
 
 It works by exstracting each article time-stamp from the title attribute and removeing chars that are not a number, after removing these chars we are left with a 14 digit number. The number for the latest article posted should have the greatest value. I can make assertions based on this and validate that each post is ranked correctly in order of the newest to the oldest.  
 
