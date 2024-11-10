@@ -48,3 +48,56 @@ test("Verify articles are displayed in descending order by date and time", async
     expect(dateAndTimeConverted[i], errorMessage).toBeGreaterThanOrEqual(dateAndTimeConverted[i + 1]);
   }
 });
+
+// New test to verify exact number of articles is loaded
+test("Verify exact number of articles is loaded", async () => {
+  const articleTitles = await homePage.getArticleTitles();
+  const numberOfArticlesToTest = await homePage.getNumberOfArticlesToTest();
+  expect(articleTitles.length, `Expected exactly ${numberOfArticlesToTest} articles, but got ${articleTitles.length}`).toBe(numberOfArticlesToTest);
+});
+
+// New test to verify article titles are unique
+test("Verify article titles are unique", async () => {
+  const articleTitles = await homePage.getArticleTitles();
+  const titleSet = new Set(articleTitles);
+  expect(titleSet.size, "Duplicate article titles found").toBe(articleTitles.length);
+
+  articleTitles.forEach((title, index) => {
+    if (articleTitles.indexOf(title) !== index) {
+      throw new Error(`Duplicate title found: "${title}" at article index ${index + 1}`);
+    }
+  });
+});
+
+// New test to verify article dates are in the past
+test("Verify article dates are in the past", async () => {
+  const dateAndTimeConverted = await homePage.convertDateAndTimeToANumber();
+  const currentDate = Date.now()
+  console.log('current date (UNIX epoch)', currentDate)
+  console.log('article 1 date extracted (UNIX epoch)', dateAndTimeConverted[0])
+  //currentDate.replace(/\D/g, "")
+  dateAndTimeConverted.forEach((date, index) => {
+    expect(date, `Article ${index + 1} has a future date: ${date}`).toBeLessThan(currentDate);
+  });
+});
+
+// New test to verify "More" button is visible when more articles are available
+test("Verify 'More' button is visible when more articles are available", async () => {
+  const isMoreButtonVisible = await homePage.buttonMore.isVisible();
+  expect(isMoreButtonVisible, "'More' button should be visible when more articles are available").toBeTruthy();
+});
+
+// New test to verify each article title has a clickable link
+test("Verify each article title has a clickable link", async () => {
+  // Locate all article title containers
+  const titleContainers = await homePage.articleTitlesLocator.all();
+
+  for (let i = 0; i < titleContainers.length; i++) {
+    // Locate the first anchor tag within each title container
+    const firstAnchor = await titleContainers[i].locator('a').first();
+    const href = await firstAnchor.getAttribute("href");
+
+    // Assert that the first anchor has a valid href attribute
+    expect(href, `Article ${i + 1} title is missing a clickable link in the first anchor`).toBeTruthy();
+  }
+});

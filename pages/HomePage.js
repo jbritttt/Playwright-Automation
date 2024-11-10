@@ -31,6 +31,7 @@ export class HomePage {
     return this.articleDateAndTime
       .slice(0, this.numberOfArticlesToTest)
       .map(date => date.replaceAll("T", "  "));
+      
   }
 
   // Populate article titles and date/time arrays by querying elements on the page.
@@ -59,7 +60,11 @@ export class HomePage {
   // Convert each date and time string in the array to a numeric format by removing non-numeric characters
   // This allows for easier chronological comparisons in tests
   async convertDateAndTimeToANumber() {
+    
     return this.articleDateAndTime.slice(0, this.numberOfArticlesToTest)
-      .map(date => Number(date.replace(/\D/g, "")));  // Remove non-numeric characters from date
+      .map(date => Number(date.slice(20)));  // Extract UNIX epoch which is the equivalent of the date and time
+      
   }
+
+  
 }
