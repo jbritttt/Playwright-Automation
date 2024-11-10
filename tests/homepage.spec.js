@@ -36,7 +36,7 @@ test("Verify elements have required values", async () => {
 test("Verify articles are displayed in descending order by date and time", async () => {
   const articleTitles = await homePage.getArticleTitles(); // Retrieve list of article titles
   const dateAndTime = await homePage.getDateAndTime();     // Retrieve list of article timestamps
-  const dateAndTimeConverted = await homePage.convertDateAndTimeToANumber(); // Convert timestamps to comparable format
+  const dateAndTimeConverted = await homePage.getDateAndTimeUnixEpoch(); // Convert timestamps to comparable format
 
   // Loop through each article and verify that each article's timestamp is >= the next article's timestamp
   for (let i = 0; i < dateAndTimeConverted.length - 1; i++) {
@@ -71,7 +71,7 @@ test("Verify article titles are unique", async () => {
 
 // New test to verify article dates are in the past
 test("Verify article dates are in the past", async () => {
-  const dateAndTimeConverted = await homePage.convertDateAndTimeToANumber();
+  const dateAndTimeConverted = await homePage.getDateAndTimeUnixEpoch();
   const currentDate = Date.now()
   console.log('current date (UNIX epoch)', currentDate)
   console.log('article 1 date extracted (UNIX epoch)', dateAndTimeConverted[0])

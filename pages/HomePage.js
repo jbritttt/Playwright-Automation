@@ -59,7 +59,7 @@ export class HomePage {
 
   // Convert each date and time string in the array to a numeric format by removing non-numeric characters
   // This allows for easier chronological comparisons in tests
-  async convertDateAndTimeToANumber() {
+  async getDateAndTimeUnixEpoch() {
     
     return this.articleDateAndTime.slice(0, this.numberOfArticlesToTest)
       .map(date => Number(date.slice(20)));  // Extract UNIX epoch which is the equivalent of the date and time
