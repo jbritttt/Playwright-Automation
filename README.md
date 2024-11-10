@@ -43,10 +43,10 @@ The code is structured into two main parts:
 
 ## Running Tests
 ### To run the tests on a specific browser (e.g., Chrome):
-npx playwright test tests/index.spec.js --project=chromium
+npx playwright test tests/homepage.spec.js --project=chromium
 
 ### To run tests across multiple browsers (Chrome, Firefox, and WebKit):
-npx playwright test tests/index.spec.js
+npx playwright test tests/homepage.spec.js
 
 ## Test Scenarios
 1. Verify Required Elements
