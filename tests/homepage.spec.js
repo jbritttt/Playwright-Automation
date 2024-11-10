@@ -11,6 +11,16 @@ test.beforeAll(async ({ browser }) => {
   await homePage.setArticles();   // Load and store articles data
 });
 
+
+
+
+// Test to verify that the logo text is "Hacker News"
+test("Verify logo text is equal to 'Hacker News'", async () => {
+  const logoText = await homePage.getLogoText()
+  
+  expect(logoText, `Expected ${logoText} to be "Hacker News"`).toBe("Hacker News");
+});
+
 // Test to verify that all required elements (titles and timestamps) have valid values
 test("Verify elements have required values", async () => {
   const articleTitles = await homePage.getArticleTitles(); // Retrieve list of article titles

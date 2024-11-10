@@ -1,6 +1,7 @@
 export class HomePage {
   constructor(page) {
     this.page = page;
+    this.logoText = page.locator(".hnname");                         // Locator for the logo which is the text "Hacker News"
     this.buttonMore = page.locator(".morelink");                 // Locator for the "More" button to load additional articles
     this.articleTitlesLocator = page.locator(".titleline");      // Locator for article titles
     this.articleDateAndTimeLocator = page.locator(".age");       // Locator for article date and time
@@ -14,6 +15,11 @@ export class HomePage {
   async goToHomePage() {
     await this.page.goto("https://news.ycombinator.com/newest");
   }
+
+// Retrieve the logo text
+async getLogoText() {
+  return this.logoText.textContent();
+}
 
   // Retrieve the configured number of articles to test
   async getNumberOfArticlesToTest() {
