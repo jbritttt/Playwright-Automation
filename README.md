@@ -1,33 +1,46 @@
-# Getting familiar with testing using playwright
-
-## Requirements?
-To validate that every article is ranked correctly on the page from the newest to the oldest.
-
-## How test no: 2 works?
-
-It works by exstracting each article time-stamp from the title attribute and removeing chars that are not a number, after removing these chars we are left with a 14 digit number. The number for the latest article posted should have the greatest value. I can make assertions based on this and validate that each post is ranked correctly in order of the newest to the oldest.  
 
 
-1. Extract attribute value of date and time from each element `[title="2024-07-26T19:56:27"]`  and store in an array 
+News Article Ordering Test
+This project automates the testing of a news website to verify that the articles displayed on the homepage are in the correct order based on their timestamps. The tests check that each article has the required attributes and that they are sorted in descending order by their publication date and time.
 
-["2024-07-26T19:56:27","2024-07-26T19:56:20","2024-07-26T19:56:10","2024-07-26T19:56:00"]
+Table of Contents
+Overview
+Project Structure
+Installation
+Running Tests
+Test Scenarios
+Page Objects
+Configuration
+Improvements
+Overview
+This project uses Playwright to automate browser interactions and verify that:
 
+Each article on the homepage has a title and a timestamp.
+Articles are displayed in descending order by publication date and time (newest to oldest).
+The code is structured into two main parts:
 
-2. Remove the chars from each item in array that isnt a number 
+Tests: Define and run test scenarios.
+Page Object Model (POM): Encapsulates page-specific logic to streamline and modularize the code.
+Project Structure
+bash
+Copy code
+├── tests/
+│   ├── homepage.spec.js           # Contains test cases to verify article elements and order
+├── pages/
+│   ├── HomePage.js                # Page Object Model for homepage interactions
+├── README.md                      # Project documentation
+├── package.json                   # Node.js dependencies and scripts
+└── playwright.config.js           # Playwright configuration (optional, if needed)
+tests/index.spec.js: Contains test cases using Playwright to verify article order and attributes on the homepage.
+pages/HomePage.js: A Page Object Model (POM) for homepage interactions to encapsulate logic related to retrieving and processing article elements.
+Installation
+Clone the repository:
 
-["20240726195627","20240726T195620","20240726195610","20240726195600"]
-
-
-3. Convert each item in array from a string to a number
-
-`[20240726195627, 20240726T195620, 20240726195610, 20240726195600]`
-
-
-4. Loop through array and assert that each item is greater than every other item after its index.
-
-`expect(index[0]).toBeGreaterThan(index[1])`
-
-
+bash
+Copy code
+git clone https://github.com/your-username/news-article-ordering-test.git
+cd news-article-ordering-test
+Install the dependencies: npm i
 
 ## Commands to run tests
 
@@ -39,18 +52,49 @@ npx playwright test tests/index.spec.js
 
 
 
-### Wins
-- I managed to come up with a simple solution with very minimal code thats easy to understand and is maintainable.
-- The number of articles that are being tested can be easily changed because dynamic values are being used throughout the programm 
-- If other elements need tested in the future then functionality for this can be easily implemented
 
+1. Verify Required Elements
+This test ensures that:
 
+Each article has a title.
+Each article has a timestamp.
+The configured number of articles to test (numberOfArticlesToTest) is a positive integer.
+javascript
+Copy code
+test("Verify elements have required values", async () => { ... });
+2. Verify Article Order by Timestamp
+This test verifies that articles are displayed in descending order based on their date and time, ensuring that the newest articles appear first.
 
-### Struggles
-I didnt realise how often the page was updated and as a result I couldnt locate the articles that failed the test by rank number when inspecting the UI
+javascript
+Copy code
+test("Verify articles are displayed in descending order by date and time", async () => { ... });
+Page Objects
+The HomePage.js file contains methods to interact with and retrieve information from the homepage:
 
+goToHomePage: Navigates to the homepage.
+getNumberOfArticlesToTest: Retrieves the configured number of articles to test.
+getArticleTitles: Returns an array of article titles.
+getDateAndTime: Returns an array of article timestamps in a human-readable format.
+setArticles: Loads and stores article titles and timestamps by clicking the "More" button if necessary.
+convertDateAndTimeToANumber: Converts timestamps to a numerical format for chronological comparison.
+Example Usage
+The HomePage class is instantiated in each test to interact with the homepage. Methods such as getArticleTitles, getDateAndTime, and convertDateAndTimeToANumber help organize and validate the information displayed on the homepage.
 
+Configuration
+The default number of articles to test is set to 100. This can be modified by adjusting the numberOfArticlesToTest variable in the HomePage class:
 
+javascript
+Copy code
+this.numberOfArticlesToTest = 100; // Change to desired number
+Improvements
+Potential improvements for this project include:
+
+Parameterization: Make numberOfArticlesToTest configurable via environment variables or test inputs.
+Enhanced Error Messages: Customize error messages further for better clarity.
+Test Coverage: Extend tests to verify other attributes, such as the author or additional metadata.
+Browser Compatibility: Extend testing across multiple browsers by adjusting the Playwright configuration.
+License
+This project is licensed under the MIT License.
 
 
 
